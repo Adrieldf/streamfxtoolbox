@@ -1,0 +1,341 @@
+/* Sizes are in em so everything scales with the text size param.
+   Custom properties (--bg, --accent, --speed, ...) are set inline by Message.tsx. */
+
+.stage {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  padding: var(--margin);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.mover {
+  display: flex;
+  max-width: 100%;
+  animation-duration: var(--move);
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.shadow {
+  filter: drop-shadow(0 0.12em 0.25em rgba(0, 0, 0, 0.5));
+}
+
+.tilt {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  transform: rotate(var(--tilt));
+}
+
+.banner {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.45em;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 0.4em 1em;
+  border: var(--border) solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--fill);
+  color: var(--text);
+  font-size: var(--size);
+  line-height: 1.15;
+  letter-spacing: var(--spacing);
+}
+
+.icon {
+  flex: none;
+  font-size: 1.15em;
+  letter-spacing: 0;
+}
+
+.words {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  overflow-wrap: break-word;
+}
+
+.subtitle {
+  margin-top: 0.25em;
+  font-size: 0.5em;
+  opacity: 0.92;
+}
+
+.outlined {
+  text-shadow:
+    -0.04em -0.04em 0 #000,
+    0.04em -0.04em 0 #000,
+    -0.04em 0.04em 0 #000,
+    0.04em 0.04em 0 #000,
+    0 0.08em 0.14em rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- Banner shapes ---------- */
+
+.banner-pill {
+  padding-inline: 1.3em;
+  border-radius: 999px;
+}
+
+.banner-ribbon {
+  padding-inline: 1.9em;
+  border-inline: 0;
+  border-radius: 0;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    calc(100% - 0.7em) 50%,
+    100% 100%,
+    0 100%,
+    0.7em 50%
+  );
+}
+
+.banner-neon {
+  background: var(--fill-soft);
+  box-shadow:
+    0 0 0.2em var(--accent),
+    0 0 0.7em var(--accent),
+    inset 0 0 0.45em var(--accent);
+  text-shadow:
+    0 0 0.12em var(--text),
+    0 0 0.45em var(--accent);
+}
+
+.banner-glass {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: var(--fill-soft);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+
+.banner-tape {
+  padding-block: 0.7em;
+  border: 0;
+  border-radius: 0;
+}
+
+.banner-tape::before,
+.banner-tape::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0.28em;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--accent) 0 0.32em,
+    #111 0.32em 0.64em
+  );
+}
+
+.banner-tape::before {
+  top: 0;
+}
+
+.banner-tape::after {
+  bottom: 0;
+}
+
+.banner-speech::after {
+  content: "";
+  position: absolute;
+  top: calc(100% + var(--border) - 1px);
+  left: 1.2em;
+  border: 0.4em solid transparent;
+  border-top-color: var(--tail);
+  border-left-color: var(--tail);
+}
+
+.banner-none {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+/* ---------- Arriving and leaving ---------- */
+
+.in-fade { animation-name: in-fade; }
+.in-slide-left { animation-name: in-slide-left; }
+.in-slide-right { animation-name: in-slide-right; }
+.in-slide-up { animation-name: in-slide-up; }
+.in-slide-down { animation-name: in-slide-down; }
+.in-zoom { animation-name: in-zoom; }
+.in-drop { animation-name: in-drop; animation-timing-function: linear; }
+.in-flip { animation-name: in-flip; }
+.in-spin { animation-name: in-spin; }
+
+.out-fade { animation-name: out-fade; }
+.out-slide-left { animation-name: out-slide-left; }
+.out-slide-right { animation-name: out-slide-right; }
+.out-slide-up { animation-name: out-slide-up; }
+.out-slide-down { animation-name: out-slide-down; }
+.out-zoom { animation-name: out-zoom; }
+.out-drop { animation-name: out-slide-down; }
+.out-flip { animation-name: out-flip; }
+.out-spin { animation-name: out-spin; }
+.out-none { animation-name: out-fade; animation-duration: 1ms; }
+
+.out-fade,
+.out-slide-left,
+.out-slide-right,
+.out-slide-up,
+.out-slide-down,
+.out-zoom,
+.out-drop,
+.out-flip,
+.out-spin {
+  animation-timing-function: cubic-bezier(0.6, 0, 0.8, 0.3);
+}
+
+@keyframes in-fade { from { opacity: 0; } }
+@keyframes in-slide-left { from { transform: translateX(-110vw); } }
+@keyframes in-slide-right { from { transform: translateX(110vw); } }
+@keyframes in-slide-up { from { transform: translateY(110vh); } }
+@keyframes in-slide-down { from { transform: translateY(-110vh); } }
+@keyframes in-zoom {
+  0% { transform: scale(0); opacity: 0; }
+  70% { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1); }
+}
+@keyframes in-drop {
+  0% { transform: translateY(-110vh); animation-timing-function: ease-in; }
+  45% { transform: translateY(0); animation-timing-function: ease-out; }
+  62% { transform: translateY(-14%); animation-timing-function: ease-in; }
+  78% { transform: translateY(0); animation-timing-function: ease-out; }
+  90% { transform: translateY(-5%); animation-timing-function: ease-in; }
+  100% { transform: translateY(0); }
+}
+@keyframes in-flip {
+  from { transform: perspective(900px) rotateX(-95deg); opacity: 0; }
+}
+@keyframes in-spin {
+  from { transform: rotate(-540deg) scale(0); opacity: 0; }
+}
+
+@keyframes out-fade { to { opacity: 0; } }
+@keyframes out-slide-left { to { transform: translateX(-110vw); } }
+@keyframes out-slide-right { to { transform: translateX(110vw); } }
+@keyframes out-slide-up { to { transform: translateY(110vh); } }
+@keyframes out-slide-down { to { transform: translateY(-110vh); } }
+@keyframes out-zoom { to { transform: scale(0); opacity: 0; } }
+@keyframes out-flip {
+  to { transform: perspective(900px) rotateX(95deg); opacity: 0; }
+}
+@keyframes out-spin {
+  to { transform: rotate(540deg) scale(0); opacity: 0; }
+}
+
+/* ---------- Looping banner effects ---------- */
+
+.loop-pulse { animation: loop-pulse calc(1.4s / var(--speed)) ease-in-out infinite; }
+.loop-float { animation: loop-float calc(3s / var(--speed)) ease-in-out infinite; }
+.loop-wiggle { animation: loop-wiggle calc(1.2s / var(--speed)) ease-in-out infinite; }
+.loop-shake { animation: loop-shake calc(0.45s / var(--speed)) linear infinite; }
+.loop-glow { animation: loop-glow calc(1.8s / var(--speed)) ease-in-out infinite; }
+.loop-rainbow { animation: hue calc(4s / var(--speed)) linear infinite; }
+
+@keyframes loop-pulse { 50% { transform: scale(1.06); } }
+@keyframes loop-float { 50% { transform: translateY(-0.22em); } }
+@keyframes loop-wiggle {
+  25% { transform: rotate(-2.2deg); }
+  75% { transform: rotate(2.2deg); }
+}
+@keyframes loop-shake {
+  20% { transform: translate(-0.05em, 0.03em); }
+  40% { transform: translate(0.05em, -0.04em); }
+  60% { transform: translate(-0.04em, -0.03em); }
+  80% { transform: translate(0.04em, 0.04em); }
+}
+@keyframes loop-glow {
+  50% { box-shadow: 0 0 0.25em var(--accent), 0 0 1em var(--accent); }
+}
+@keyframes hue { to { filter: hue-rotate(360deg); } }
+
+/* The shine is its own clipped layer so it can't spill past rounded corners */
+.shine {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.shine::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -45%;
+  width: 35%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  animation: shine calc(2.8s / var(--speed)) ease-in-out infinite;
+}
+
+@keyframes shine {
+  0%, 35% { left: -45%; }
+  100% { left: 110%; }
+}
+
+/* ---------- Text effects (each letter carries its index in --i) ---------- */
+
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.letter {
+  display: inline-block;
+  white-space: pre;
+}
+
+.letters-wave .letter {
+  animation: letter-wave calc(1.4s / var(--speed)) ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.07s / var(--speed));
+}
+
+.letters-bounce .letter {
+  animation: letter-bounce calc(1.3s / var(--speed)) ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.06s / var(--speed));
+}
+
+.letters-typewriter .letter {
+  opacity: 0;
+  animation: letter-appear 1ms linear forwards;
+  animation-delay: calc(var(--move) + var(--i) * 0.07s / var(--speed));
+}
+
+.letters-rainbow .letter {
+  color: hsl(calc(var(--i) * 24), 100%, 64%);
+  animation: hue calc(3s / var(--speed)) linear infinite;
+}
+
+.letters-scroll .title {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.letters-scroll .line {
+  display: inline-block;
+  padding-left: 100%;
+  animation: letter-scroll calc(var(--scroll) / var(--speed)) linear infinite;
+}
+
+@keyframes letter-wave { 50% { transform: translateY(-0.22em); } }
+@keyframes letter-bounce {
+  0%, 60%, 100% { transform: scale(1); }
+  30% { transform: scale(1.35, 0.75) translateY(0.08em); }
+  45% { transform: scale(0.85, 1.25) translateY(-0.18em); }
+}
+@keyframes letter-appear { to { opacity: 1; } }
+@keyframes letter-scroll { to { transform: translateX(-100%); } }

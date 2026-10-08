@@ -1,0 +1,362 @@
+/* No `color-scheme` here on purpose: if the panel and the overlay iframe
+   disagree on it, the browser paints the iframe with an opaque background. */
+body.panel {
+  --bg: #12131a;
+  --surface: #1a1c26;
+  --surface-2: #232633;
+  --border: #2f3344;
+  --text: #e8e9f0;
+  --muted: #9a9eb3;
+  --accent: #9b7bff;
+  --accent-text: #14101f;
+
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.panel *,
+.panel *::before,
+.panel *::after {
+  box-sizing: border-box;
+}
+
+.panel h1,
+.panel h2,
+.panel h3,
+.panel p {
+  margin: 0;
+}
+
+.panel code {
+  font: 12px/1.4 ui-monospace, "Cascadia Code", Consolas, monospace;
+  color: var(--muted);
+}
+
+.panel button,
+.panel a,
+.panel input,
+.panel select {
+  font: inherit;
+  color: inherit;
+}
+
+.panel button,
+.url-row a {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-2);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.panel button:hover,
+.url-row a:hover {
+  border-color: var(--accent);
+}
+
+.panel button.primary {
+  min-width: 76px;
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+.panel :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.panel input[type="text"],
+.panel input[type="number"],
+.panel select {
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+}
+
+.panel input[type="range"],
+.panel input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr) 320px;
+  min-height: 100vh;
+}
+
+.sidebar,
+.controls {
+  padding: 20px 16px;
+  background: var(--surface);
+}
+
+.sidebar {
+  border-right: 1px solid var(--border);
+}
+
+.sidebar h1 {
+  font-size: 16px;
+}
+
+.sidebar h2 {
+  margin: 24px 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.sidebar ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar li button {
+  display: grid;
+  width: 100%;
+  border-color: transparent;
+  background: transparent;
+  text-align: left;
+}
+
+.sidebar li button.active {
+  border-color: var(--border);
+  background: var(--surface-2);
+}
+
+.main {
+  display: grid;
+  align-content: start;
+  gap: 24px;
+  padding: 24px;
+}
+
+.main header h2 {
+  font-size: 22px;
+}
+
+.main header p,
+.help {
+  color: var(--muted);
+}
+
+.main h3,
+.controls h3 {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.segmented {
+  display: flex;
+}
+
+.segmented button {
+  border-radius: 0;
+  margin-left: -1px;
+}
+
+.segmented button:first-child {
+  margin-left: 0;
+  border-radius: 6px 0 0 6px;
+}
+
+.segmented button:last-child {
+  border-radius: 0 6px 6px 0;
+}
+
+.segmented button.active {
+  position: relative;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.preview {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.preview iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.backdrop-checker {
+  background: repeating-conic-gradient(#2a2d3a 0% 25%, #1d1f2a 0% 50%) 0 0 /
+    24px 24px;
+}
+
+.backdrop-dark {
+  background: #000;
+}
+
+.backdrop-light {
+  background: #f2f2f2;
+}
+
+.url-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.url-row input {
+  flex: 1;
+  min-width: 0;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 13px;
+}
+
+.field-label {
+  display: block;
+  margin: 12px 0 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.queue-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.queue-row input {
+  width: 160px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.panel table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.panel th,
+.panel td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.panel th {
+  background: var(--surface);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.panel tr:last-child td {
+  border-bottom: 0;
+}
+
+.panel td:nth-child(2),
+.panel td:nth-child(3) {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.controls {
+  border-left: 1px solid var(--border);
+}
+
+.controls-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.controls-head h3 {
+  margin: 0;
+}
+
+.control {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.control label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.control .help {
+  font-size: 12px;
+}
+
+.control-number {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.control-number input[type="range"] {
+  flex: 1;
+  min-width: 0;
+}
+
+.control-number input[type="number"] {
+  width: 72px;
+}
+
+.control-number .unit {
+  width: 12px;
+  color: var(--muted);
+}
+
+.control input[type="checkbox"] {
+  justify-self: start;
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 1000px) {
+  .shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sidebar,
+  .controls {
+    border: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .controls {
+    order: 2;
+  }
+
+  .main {
+    order: 3;
+    padding: 16px;
+  }
+}
